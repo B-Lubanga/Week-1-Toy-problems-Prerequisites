@@ -15,19 +15,21 @@ function speedDetector(speed) {
 
 function checkSpeed() {
   const speedInput = document.getElementById("speedInput").value;
-  const resultElement = document.getElementById("result");
+  const resultBox = document.getElementById("resultBox");
 
   // Validate input
   if (!speedInput || isNaN(speedInput) || speedInput < 0) {
-    resultElement.innerText = "Please enter a valid speed!";
-    resultElement.style.color = "red";
+    resultBox.innerHTML = `<div class="alert alert-danger">Please enter a valid speed!</div>`;
     return;
   }
 
   const speed = parseInt(speedInput);
   const result = speedDetector(speed);
 
-  // Display the result
-  resultElement.innerText = result;
-  resultElement.style.color = result === "License suspended" ? "red" : "black";
+  // Display the result with appropriate styling
+  let alertClass = "alert-success"; // Default for "Ok"
+  if (result.includes("Points")) alertClass = "alert-warning"; // Yellow for points
+  if (result === "License suspended") alertClass = "alert-danger"; // Red for suspension
+
+  resultBox.innerHTML = `<div class="alert ${alertClass}"><strong>Result:</strong> ${result}</div>`;
 }
